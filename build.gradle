@@ -49,3 +49,5 @@ compileKotlin {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 }
+
+task stage(dependsOn: ['buildscript'])
