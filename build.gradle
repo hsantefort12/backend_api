@@ -50,4 +50,4 @@ compileKotlin {
     }
 }
 
-task stage(dependsOn: ['buildscript'])
+task stage(dependsOn: ['compileKotlin', 'dependencies'])
