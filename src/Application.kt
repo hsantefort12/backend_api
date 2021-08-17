@@ -20,6 +20,7 @@ fun Application.module(testing: Boolean = false) {
 
     install(CORS) {
         exposeHeader("Access-Control-Allow-Origin")
+        anyHost()
     }
 
     install(Authentication) {
