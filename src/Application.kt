@@ -18,6 +18,8 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
+    install(CORS)
+
     install(Authentication) {
         basic("myBasicAuth") {
             realm = "Ktor Server"
