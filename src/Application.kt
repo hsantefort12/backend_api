@@ -18,7 +18,9 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
-    install(CORS)
+    install(CORS) {
+        exposeHeader("Access-Control-Allow-Origin")
+    }
 
     install(Authentication) {
         basic("myBasicAuth") {
