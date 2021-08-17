@@ -7,8 +7,17 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import org.jetbrains.exposed.sql.Database
 
+
+fun Route.getTest() {
+    get("/test") {
+        println("Hello!")
+        call.respondText(
+            "Hello, World!",
+            status = HttpStatusCode.Accepted
+        )
+    }
+}
 fun Route.postCharacter() {
     post("/new-character") {
         val db = DatabaseController()
@@ -58,5 +67,6 @@ fun Application.registerCharacterRoutes() {
         getAllCharacters()
         getCharacter()
         deleteCharacter()
+        getTest()
     }
 }
