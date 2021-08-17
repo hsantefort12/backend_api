@@ -50,4 +50,4 @@ compileKotlin {
     }
 }
 
-task stage(dependsOn: ['compileKotlin', 'dependencies'])
+task stage(dependsOn: ['installDist'])
