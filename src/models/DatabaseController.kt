@@ -24,7 +24,7 @@ class DatabaseController {
         transaction {
             addLogger(StdOutSqlLogger)
 
-            SchemaUtils.create(UserTable, CharacterTable)
+            SchemaUtils.create(UserTable, CharacterTable, QuestionTable, AnswerTable)
         }
     }
 
@@ -32,10 +32,33 @@ class DatabaseController {
         transaction {
             addLogger(StdOutSqlLogger)
 
-            SchemaUtils.drop(UserTable, CharacterTable)
+            SchemaUtils.drop(UserTable, CharacterTable, QuestionTable, AnswerTable)
         }
     }
     /* End Table Functions */
+
+    /* Question and Answer Functions */
+    fun createQuestion(question : Question) : EntityID<Int> {
+        return transaction {
+            QuestionTable.insertAndGetId {
+                it[name] = question.name
+                it[description] = question.description
+            }
+        }
+    }
+
+    fun createAnswer(answer : Answer) : EntityID<Int> {
+        return transaction {
+            AnswerTable.insertAndGetId {
+                it[name] = answer.name
+                it[questionId] = answer.questionId
+                it[description] = answer.description
+                it[correct] = answer.correct
+            }
+        }
+    }
+
+    /* End Question and Answer Functions */
 
     /* Character Functions */
     fun createCharacter(character : Character) : EntityID<Int> {

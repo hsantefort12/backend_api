@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.Database
 import javax.xml.crypto.Data
 
 fun Route.createTables() {
-    post("/create-tables") {
+    post("/db/create-tables") {
         println("/create-tables")
         val db = DatabaseController()
         db.createTables()
@@ -22,7 +22,7 @@ fun Route.createTables() {
 }
 
 fun Route.dropTables() {
-    post ("/drop-tables") {
+    post ("/db/drop-tables") {
         val db = DatabaseController()
         db.dropTables()
         call.respondText(
