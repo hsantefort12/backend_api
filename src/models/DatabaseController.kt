@@ -47,11 +47,11 @@ class DatabaseController {
         }
     }
 
-    fun createAnswer(answer : Answer) : EntityID<Int> {
+    fun createAnswer(answer : Answer, questionId_ : Int) : EntityID<Int> {
         return transaction {
             AnswerTable.insertAndGetId {
                 it[name] = answer.name
-                it[questionId] = answer.questionId
+                it[questionId] = questionId_
                 it[description] = answer.description
                 it[correct] = answer.correct
             }
