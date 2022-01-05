@@ -13,7 +13,7 @@ fun Route.postAnswer() {
     post("/answer") {
         val db = DatabaseController()
         val answer = call.receive<Answer>()
-        val answerId = db.createAnswer(answer, 1)
+        val answerId = db.createAnswer(answer)
         call.respondText(
             "Successfully created answer with id $answerId",
             status = HttpStatusCode.Accepted
