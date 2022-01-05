@@ -33,9 +33,18 @@ fun Route.postQuestion() {
     }
 }
 
+fun Route.getQuestions() {
+    get("/questions") {
+        val db = DatabaseController()
+        val questions = db.getQuestions()
+        call.respond(questions)
+    }
+}
+
 fun Application.registerQuestionAnswerRoutes() {
     routing {
         postAnswer()
         postQuestion()
+        getQuestions()
     }
 }
