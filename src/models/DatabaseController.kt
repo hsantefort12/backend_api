@@ -51,8 +51,9 @@ class DatabaseController {
         return transaction {
             QuestionTable.selectAll().map {
                 Question(
-                    it[QuestionTable.description],
-                    it[QuestionTable.name]
+                    it[QuestionTable.key],
+                    it[QuestionTable.name],
+                    it[QuestionTable.description]
                 )
             }
         }
