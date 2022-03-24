@@ -14,7 +14,6 @@ data class Answer(
 object AnswerTable : IntIdTable() {
     val name = varchar("name", 191)
     val questionId = integer("questionId")
-        .references(QuestionTable.id)
     val description = text("description")
     val correct = bool("correct")
 }

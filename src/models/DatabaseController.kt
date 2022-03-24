@@ -59,6 +59,19 @@ class DatabaseController {
         }
     }
 
+    fun getAnswers() : List<Answer> {
+        return transaction {
+            AnswerTable.selectAll().map {
+                Answer(
+                    it[AnswerTable.name],
+                    it[AnswerTable.questionId],
+                    it[AnswerTable.description],
+                    it[AnswerTable.correct]
+                )
+            }
+        }
+    }
+
     fun createAnswer(answer : Answer) : EntityID<Int> {
         return transaction {
             AnswerTable.insertAndGetId {
