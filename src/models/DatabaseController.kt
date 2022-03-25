@@ -47,6 +47,14 @@ class DatabaseController {
         }
     }
 
+    fun deleteQuestion(question : Question) {
+        transaction {
+            QuestionTable.deleteWhere {
+                QuestionTable.key eq question.key
+            }
+        }
+    }
+
     fun getQuestions() : List<Question> {
         return transaction {
             QuestionTable.selectAll().map {
@@ -79,6 +87,14 @@ class DatabaseController {
                 it[questionId] = answer.questionId
                 it[description] = answer.description
                 it[correct] = answer.correct
+            }
+        }
+    }
+
+    fun deleteAnswer(answer : Answer) {
+        transaction {
+            AnswerTable.deleteWhere {
+                AnswerTable.name eq answer.name
             }
         }
     }

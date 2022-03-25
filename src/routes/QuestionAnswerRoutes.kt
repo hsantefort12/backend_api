@@ -21,6 +21,18 @@ fun Route.postAnswer() {
     }
 }
 
+fun Route.deleteAnswer() {
+    delete("/answer") {
+        val db = DatabaseController()
+        val answer = call.receive<Answer>()
+        db.deleteAnswer(answer)
+        call.respondText(
+            "Successfully deleted answer with name ${answer.name}",
+            status = HttpStatusCode.Accepted
+        )
+    }
+}
+
 fun Route.getAnswers() {
     get("/answers") {
         val db = DatabaseController()
@@ -41,6 +53,17 @@ fun Route.postQuestion() {
     }
 }
 
+fun Route.deleteQuestion() {
+    delete("question") {
+        val db = DatabaseController()
+        val question = call.receive<Question>()
+        db.deleteQuestion(question)
+        call.respondText(
+            "Successfully deleted question with name ${question.name}"
+        )
+    }
+}
+
 fun Route.getQuestions() {
     get("/questions") {
         val db = DatabaseController()
@@ -52,8 +75,10 @@ fun Route.getQuestions() {
 fun Application.registerQuestionAnswerRoutes() {
     routing {
         postAnswer()
+        deleteAnswer()
         getAnswers()
         postQuestion()
+        deleteQuestion()
         getQuestions()
     }
 }
