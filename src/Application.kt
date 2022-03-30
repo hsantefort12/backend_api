@@ -39,6 +39,7 @@ fun Application.module(testing: Boolean = false) {
     registerUserRoutes()
     registerCharacterRoutes()
     registerQuestionAnswerRoutes()
+    registerAttackRoutes()
 }
 
 data class MySession(val count: Int = 0)

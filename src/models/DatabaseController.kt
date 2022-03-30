@@ -24,7 +24,7 @@ class DatabaseController {
         transaction {
             addLogger(StdOutSqlLogger)
 
-            SchemaUtils.create(UserTable, CharacterTable, QuestionTable, AnswerTable)
+            SchemaUtils.create(CharacterTable, QuestionTable, AnswerTable, AttackTable)
         }
     }
 
@@ -32,7 +32,7 @@ class DatabaseController {
         transaction {
             addLogger(StdOutSqlLogger)
 
-            SchemaUtils.drop(UserTable, CharacterTable, QuestionTable, AnswerTable)
+            SchemaUtils.drop(CharacterTable, QuestionTable, AnswerTable, AttackTable)
         }
     }
     /* End Table Functions */
@@ -107,9 +107,7 @@ class DatabaseController {
             CharacterTable.insertAndGetId {
                 it[name] = character.name
                 it[hitPoints] = character.hitPoints
-                it[movement] = character.movement
-                it[bonusMovement] = character.bonusMovement
-                it[npc] = character.npc
+                it[combatId] = character.combatId
             }
         }
     }
@@ -118,11 +116,10 @@ class DatabaseController {
         return transaction {
             CharacterTable.selectAll().map {
                 Character(
+                    it[CharacterTable.key],
                     it[CharacterTable.name],
                     it[CharacterTable.hitPoints],
-                    it[CharacterTable.movement],
-                    it[CharacterTable.bonusMovement],
-                    it[CharacterTable.npc]
+                    it[CharacterTable.combatId]
                 )
             }
         }
@@ -136,19 +133,18 @@ class DatabaseController {
         }
         if (results.isEmpty()) {
             println("No character found with id $id")
-            return Character("",
+            return Character(0,
+                "",
                 0,
-                0,
-                0,
-                false
+                0
             )
         }
         val result = results[0]
-        return Character(result[CharacterTable.name],
+        return Character(
+            result[CharacterTable.key],
+            result[CharacterTable.name],
             result[CharacterTable.hitPoints],
-            result[CharacterTable.movement],
-            result[CharacterTable.bonusMovement],
-            result[CharacterTable.npc]
+            result[CharacterTable.combatId]
         )
     }
 
@@ -158,6 +154,39 @@ class DatabaseController {
         }
     }
     /* End Character Functions */
+
+    /* Attack Functions */
+
+    fun createAttack(attack : Attack) : EntityID<Int> {
+        return transaction {
+            AttackTable.insertAndGetId {
+                it[characterId] = attack.characterId
+                it[die] = attack.die
+                it[attackNumber] = attack.attackNumber
+            }
+        }
+    }
+
+    fun getAttacks() : List<Attack> {
+        return transaction {
+            AttackTable.selectAll().map {
+                Attack(
+                    it[AttackTable.key],
+                    it[AttackTable.characterId],
+                    it[AttackTable.die],
+                    it[AttackTable.attackNumber]
+                )
+            }
+        }
+    }
+
+    fun deleteAttack(id : Int) {
+        transaction {
+            AttackTable.deleteWhere { AttackTable.id eq id }
+        }
+    }
+
+    /* End Attack Functions */
 
     /* User Functions */
 

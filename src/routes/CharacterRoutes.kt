@@ -51,13 +51,13 @@ fun Route.getCharacter() {
 }
 
 fun Route.deleteCharacter() {
-    delete ("/delete-character/{id}") {
+    delete ("/delete-character") {
         val db = DatabaseController()
-        val id = call.parameters["id"] ?: return@delete call.respondText(
-            "Bad Argument",
-            status = HttpStatusCode.BadRequest
+        val character = call.receive<Character>()
+        db.deleteCharacter(character.key)
+        call.respondText(
+            "Successfully deleted character with ID ${character.key}"
         )
-        db.deleteCharacter(id.toInt())
     }
 }
 
