@@ -24,7 +24,7 @@ fun Route.postCharacter() {
         val character = call.receive<Character>()
         val characterId = db.createCharacter(character)
         call.respondText(
-            "Successfully created character with id $characterId",
+            "{ \"id\": $characterId }",
             status = HttpStatusCode.Accepted
         )
     }
